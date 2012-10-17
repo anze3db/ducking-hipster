@@ -35,17 +35,16 @@ public class Main implements GLEventListener {
         caps.setBackgroundOpaque(false);
         GLWindow glWindow = GLWindow.create(caps);
 
-        glWindow.setTitle("Main");
+        glWindow.setTitle("Ducking hipster");
         glWindow.setSize(width, height);
         glWindow.setUndecorated(false);
         glWindow.setPointerVisible(true);
         glWindow.setVisible(true);
 
-        glWindow.addGLEventListener(new RawGL2ES2demo() /* GLEventListener */);
+        glWindow.addGLEventListener(new Main() /* GLEventListener */);
         Animator animator = new Animator(glWindow);
         animator.add(glWindow);
         animator.start();
-
     }
 
     @Override
@@ -194,7 +193,7 @@ public class Main implements GLEventListener {
         // so that we can update it.
         ModelViewProjectionMatrix_location = gl.glGetUniformLocation(shaderProgram,
                 "uniform_Projection");
-
+        
     }
 
     @Override
