@@ -26,17 +26,19 @@ public class Game {
         float[] model_view_projection; // Gets sent to the vertex shader
 
         model_view_projection = ProjectionHelper.translate(ProjectionHelper.identity_matrix, 0.0f,
-                0.0f, -0.1f);
+                0.0f, 0.0f);
         model_view_projection = ProjectionHelper.rotate(model_view_projection, (float) 30f
-                * (float) s, 1.0f, 0.0f, 1.0f);
+                * (float) s, 0.0f, 0.0f, 1.0f);
         // Send the final projection matrix to the vertex shader by
         // using the uniform location id obtained during the init part.
         gl.glUniformMatrix4fv(Main.ModelViewProjectionMatrix_location, 1, false,
                 model_view_projection, 0);
 
-        float[] vertices = { 0.0f, 1.0f, 0.0f, // Top
+        float[] vertices = { 
+                 1.0f, -1.0f, 0.0f, // Bottom Right
                 -1.0f, -1.0f, 0.0f, // Bottom Left
-                1.0f, -1.0f, 0.0f // Bottom Right
+                 1.0f,  1.0f, 0.0f, // Top Right
+                -1.0f,  1.0f, 0.0f, // Top Left
         };
 
         // This is done so that the data doesn't get garbage collected
@@ -47,8 +49,8 @@ public class Game {
 
         float[] colors = { 1.0f, 0.0f, 0.0f, 1.0f, // Top color (red)
                 0.0f, 0.0f, 0.0f, 1.0f, // Bottom Left color (black)
-                1.0f, 1.0f, 0.0f, 0.9f // Bottom Right color (yellow) with 10%
-                                       // transparence
+                1.0f, 1.0f, 0.0f, 0.9f, // Bottom Right color (yellow) with 10%
+                1.0f, 1.0f, 1.0f, 1.0f, // transparence
         };
 
         FloatBuffer fbColors = Buffers.newDirectFloatBuffer(colors);
@@ -56,7 +58,7 @@ public class Game {
         gl.glVertexAttribPointer(1, 4, GL2ES2.GL_FLOAT, false, 0, fbColors);
         gl.glEnableVertexAttribArray(1);
 
-        gl.glDrawArrays(GL2ES2.GL_TRIANGLES, 0, 3); // Draw the vertices as
+        gl.glDrawArrays(GL2ES2.GL_TRIANGLE_STRIP, 0, 4); // Draw the vertices as
                                                     // triangle
 
         gl.glDisableVertexAttribArray(0); // Allow release of vertex position

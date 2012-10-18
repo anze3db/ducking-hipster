@@ -107,8 +107,7 @@ public class Main implements GLEventListener {
 
         // Get a id number to the uniform_Projection matrix
         // so that we can update it.
-        ModelViewProjectionMatrix_location = gl.glGetUniformLocation(shaderProgram,
-                "uniform_Projection");
+        ModelViewProjectionMatrix_location = gl.glGetUniformLocation(shaderProgram, "uniform_Projection");
     }
 
     @Override
@@ -126,18 +125,18 @@ public class Main implements GLEventListener {
         game.draw(gl);
 
     }
-    
+
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
         WIDTH = w;
         HEIGHT = h;
-        
+
         // Get gl
-        GL2ES2 gl = drawable.getGL().getGL2ES2();
-        
+        // GL2ES2 gl = drawable.getGL().getGL2ES2();
+
         // Optional: Set viewport
         // Render to a square at the center of the window.
-        gl.glViewport((WIDTH - HEIGHT) / 2, 0, HEIGHT, HEIGHT);
+        // gl.glViewport((WIDTH - HEIGHT) / 2, 0, HEIGHT, HEIGHT);
     }
 
     @Override
