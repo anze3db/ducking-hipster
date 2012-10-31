@@ -1,6 +1,8 @@
 package psywerx.platformGl.game;
 
+import java.lang.reflect.Array;
 import java.nio.FloatBuffer;
+import java.util.Arrays;
 
 import javax.media.opengl.GL2ES2;
 
@@ -24,11 +26,14 @@ public class GameObject {
     }
 
     protected void draw(GL2ES2 gl) {
+        
         float[] model_projection = new float[16];
         Matrix.setIdentityM(model_projection, 0);
         Matrix.translateM(model_projection, 0, position.x, position.y, 0f);
-        gl.glUniformMatrix4fv(Main.ModelProjectionMatrix_location, 1, false, model_projection, 0);
-        float[] vertices = { 1.0f, -1.0f, 1.0f, // Bottom Right
+        
+        gl.glUniformMatrix4fv(Main.ModelViewProjectionMatrix_location, 1, false, model_projection, 0);
+        
+        float[] vertices = { 1.0f, -1.0f, 0.0f, // Bottom Right
                 -1.0f, -1.0f, 0.0f, // Bottom Left
                 1.0f, 1.0f, 0.0f, // Top Right
                 -1.0f, 1.0f, 0.0f, // Top Left

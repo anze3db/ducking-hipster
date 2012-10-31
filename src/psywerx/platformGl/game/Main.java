@@ -135,11 +135,11 @@ public class Main implements GLEventListener {
         HEIGHT = h;
 
         // Get gl
-        //GL2ES2 gl = drawable.getGL().getGL2ES2();
+        GL2ES2 gl = drawable.getGL().getGL2ES2();
 
         // Optional: Set viewport
         // Render to a square at the center of the window.
-        // gl.glViewport((WIDTH - HEIGHT) / 2, 0, HEIGHT, HEIGHT);
+        gl.glViewport(0, 0, WIDTH, HEIGHT);
     }
 
     @Override

@@ -16,7 +16,6 @@
 
 package psywerx.platformGl.game;
 
-import java.nio.FloatBuffer;
 
 /**
  * Matrix math utilities. These methods operate on OpenGL ES format
@@ -64,34 +63,19 @@ public class Matrix {
      * resultOffset + 16 > result.length or lhsOffset + 16 > lhs.length or
      * rhsOffset + 16 > rhs.length.
      */
-
-    public static void glMultMatrixf(FloatBuffer a, FloatBuffer b, FloatBuffer d) {
-        final int aP = a.position();
-        final int bP = b.position();
-        final int dP = d.position();
-        for (int i = 0; i < 4; i++) {
-            final float ai0 = a.get(aP + i + 0 * 4), ai1 = a.get(aP + i + 1 * 4), ai2 = a.get(aP
-                    + i + 2 * 4), ai3 = a.get(aP + i + 3 * 4);
-            d.put(dP + i + 0 * 4, ai0 * b.get(bP + 0 + 0 * 4) + ai1 * b.get(bP + 1 + 0 * 4) + ai2
-                    * b.get(bP + 2 + 0 * 4) + ai3 * b.get(bP + 3 + 0 * 4));
-            d.put(dP + i + 1 * 4, ai0 * b.get(bP + 0 + 1 * 4) + ai1 * b.get(bP + 1 + 1 * 4) + ai2
-                    * b.get(bP + 2 + 1 * 4) + ai3 * b.get(bP + 3 + 1 * 4));
-            d.put(dP + i + 2 * 4, ai0 * b.get(bP + 0 + 2 * 4) + ai1 * b.get(bP + 1 + 2 * 4) + ai2
-                    * b.get(bP + 2 + 2 * 4) + ai3 * b.get(bP + 3 + 2 * 4));
-            d.put(dP + i + 3 * 4, ai0 * b.get(bP + 0 + 3 * 4) + ai1 * b.get(bP + 1 + 3 * 4) + ai2
-                    * b.get(bP + 2 + 3 * 4) + ai3 * b.get(bP + 3 + 3 * 4));
-        }
-    }
-
-    public static float[] multiply(float[] a, float[] b) {
-        float[] tmp = new float[16];
-        glMultMatrixf(FloatBuffer.wrap(a), FloatBuffer.wrap(b), FloatBuffer.wrap(tmp));
-        return tmp;
-    }
-
     public static void multiplyMM(float[] result, int resultOffset,
-            float[] lhs, int lhsOffset, float[] rhs, int rhsOffset){
-        result = multiply(lhs, rhs);
+            float[] lhs, int lhsOffset, float[] rhs, int rhsOffset) {
+        
+        int i, j, k;
+          for (i = 0; i < 4; i++)
+            for (j = 0; j < 4; j++) {
+              int tmpIdx = 4*j+i;
+              result[tmpIdx+resultOffset] = 0.0f;
+              for (k = 0; k < 4; k++) {
+                  result[tmpIdx+resultOffset] += lhs[4*k+i+lhsOffset] * rhs[4*j+k+rhsOffset];
+              }
+            }
+        // assign(dst, tmp);
     }
 
     /**
@@ -610,5 +594,78 @@ public class Matrix {
         rm[rmOffset + 13] =  0.0f;
         rm[rmOffset + 14] =  0.0f;
         rm[rmOffset + 15] =  1.0f;
+    }
+
+    /**
+     * Define a viewing transformation in terms of an eye point, a center of
+     * view, and an up vector.
+     *
+     * @param rm returns the result
+     * @param rmOffset index into rm where the result matrix starts
+     * @param eyeX eye point X
+     * @param eyeY eye point Y
+     * @param eyeZ eye point Z
+     * @param centerX center of view X
+     * @param centerY center of view Y
+     * @param centerZ center of view Z
+     * @param upX up vector X
+     * @param upY up vector Y
+     * @param upZ up vector Z
+     */
+    public static void setLookAtM(float[] rm, int rmOffset,
+            float eyeX, float eyeY, float eyeZ,
+            float centerX, float centerY, float centerZ, float upX, float upY,
+            float upZ) {
+
+        // See the OpenGL GLUT documentation for gluLookAt for a description
+        // of the algorithm. We implement it in a straightforward way:
+
+        float fx = centerX - eyeX;
+        float fy = centerY - eyeY;
+        float fz = centerZ - eyeZ;
+
+        // Normalize f
+        float rlf = 1.0f / Matrix.length(fx, fy, fz);
+        fx *= rlf;
+        fy *= rlf;
+        fz *= rlf;
+
+        // compute s = f x up (x means "cross product")
+        float sx = fy * upZ - fz * upY;
+        float sy = fz * upX - fx * upZ;
+        float sz = fx * upY - fy * upX;
+
+        // and normalize s
+        float rls = 1.0f / Matrix.length(sx, sy, sz);
+        sx *= rls;
+        sy *= rls;
+        sz *= rls;
+
+        // compute u = s x f
+        float ux = sy * fz - sz * fy;
+        float uy = sz * fx - sx * fz;
+        float uz = sx * fy - sy * fx;
+
+        rm[rmOffset + 0] = sx;
+        rm[rmOffset + 1] = ux;
+        rm[rmOffset + 2] = -fx;
+        rm[rmOffset + 3] = 0.0f;
+
+        rm[rmOffset + 4] = sy;
+        rm[rmOffset + 5] = uy;
+        rm[rmOffset + 6] = -fy;
+        rm[rmOffset + 7] = 0.0f;
+
+        rm[rmOffset + 8] = sz;
+        rm[rmOffset + 9] = uz;
+        rm[rmOffset + 10] = -fz;
+        rm[rmOffset + 11] = 0.0f;
+
+        rm[rmOffset + 12] = 0.0f;
+        rm[rmOffset + 13] = 0.0f;
+        rm[rmOffset + 14] = 0.0f;
+        rm[rmOffset + 15] = 1.0f;
+
+        translateM(rm, rmOffset, -eyeX, -eyeY, -eyeZ);
     }
 }

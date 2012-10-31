@@ -26,20 +26,25 @@ public class Game {
         // Clear screen
         gl.glEnable(GL.GL_DEPTH_TEST);
         // gl.glViewport(0, 0, Main.WIDTH, Main.HEIGHT);
-        gl.glClearColor(0, 0, 0, 1f);
+        gl.glClearColor(0, 0f, 0, 1f);
         gl.glClear(GL2ES2.GL_STENCIL_BUFFER_BIT | GL2ES2.GL_COLOR_BUFFER_BIT | GL2ES2.GL_DEPTH_BUFFER_BIT);
-
+        
         // Use the shaderProgram that got linked during the init part.
         gl.glUseProgram(Main.shaderProgram);
+        
         float[] model_view_projection = new float[16]; // Gets sent to the
-                                                       // vertex shader
-        Matrix.setIdentityM(model_view_projection, 0);
-        Matrix.translateM(model_view_projection, 0, 0f, 0.1f, 0f);
-        // Matrix.rotateM(model_view_projection, 0, (float) 30f * (float) s, 1f,
-        // 0f, 0f);
-        // Send the final projection matrix to the vertex shader by
-        // using the uniform location id obtained during the init part.
-        gl.glUniformMatrix4fv(Main.ModelViewProjectionMatrix_location, 1, false, model_view_projection, 0);
+        float ratio = Main.WIDTH / (float)Main.HEIGHT;
+        float[] model_projection = new float[16];
+        Matrix.setLookAtM(model_projection , 0, 1f, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+        Matrix.frustumM(model_view_projection, 0, -ratio, ratio, -1, 1, 3, 7);
+        
+        float[] projection = new float[16];
+        Matrix.multiplyMM(projection, 0, model_view_projection, 0, model_projection, 0);
+        
+        
+        
+        gl.glUniformMatrix4fv(Main.ModelProjectionMatrix_location, 1, false, projection, 0);
+        
         
         for (GameObject g : objects) {
             g.draw(gl);
