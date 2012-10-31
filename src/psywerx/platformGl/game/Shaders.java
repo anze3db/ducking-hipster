@@ -12,6 +12,7 @@ public class Shaders {
          "#endif \n" +
 
          "uniform mat4    uniform_Projection; \n" + // Incomming data used by
+         "uniform mat4    uniform_Model; \n" + // Incomming data used by
          "attribute vec4  attribute_Position; \n" + // the vertex shader
          "attribute vec4  attribute_Color; \n" +    // uniform and attributes
 
@@ -20,7 +21,7 @@ public class Shaders {
          "void main(void) \n" +
          "{ \n" +
          "  varying_Color = attribute_Color; \n" +
-         "  gl_Position = uniform_Projection * attribute_Position; \n" +
+         "  gl_Position = uniform_Projection * uniform_Model * attribute_Position; \n" +
          "} ";
 
          /* Introducing the OpenGL ES 2 Fragment shader

@@ -21,6 +21,7 @@ public class Main implements GLEventListener {
 
     protected static int shaderProgram;
     protected static int ModelViewProjectionMatrix_location;
+    protected static int ModelProjectionMatrix_location;
 
     private int vertShader;
     private int fragShader;
@@ -108,6 +109,8 @@ public class Main implements GLEventListener {
         // Get a id number to the uniform_Projection matrix
         // so that we can update it.
         ModelViewProjectionMatrix_location = gl.glGetUniformLocation(shaderProgram, "uniform_Projection");
+        ModelProjectionMatrix_location = gl.glGetUniformLocation(shaderProgram, "uniform_Model");
+
     }
 
     @Override
@@ -115,12 +118,12 @@ public class Main implements GLEventListener {
 
         // Update variables used in animation
         double t1 = System.currentTimeMillis();
-        theta += (t1 - t0) * 0.005f;
+        theta = (t1 - t0)*0.001;
         t0 = t1;
 
         GL2ES2 gl = drawable.getGL().getGL2ES2();
 
-        game.tick(gl, theta);
+        game.tick(theta);
 
         game.draw(gl);
 
@@ -132,7 +135,7 @@ public class Main implements GLEventListener {
         HEIGHT = h;
 
         // Get gl
-        // GL2ES2 gl = drawable.getGL().getGL2ES2();
+        //GL2ES2 gl = drawable.getGL().getGL2ES2();
 
         // Optional: Set viewport
         // Render to a square at the center of the window.
