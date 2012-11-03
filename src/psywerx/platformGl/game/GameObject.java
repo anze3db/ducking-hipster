@@ -1,8 +1,6 @@
 package psywerx.platformGl.game;
 
-import java.lang.reflect.Array;
 import java.nio.FloatBuffer;
-import java.util.Arrays;
 
 import javax.media.opengl.GL2ES2;
 
@@ -10,29 +8,29 @@ import com.jogamp.common.nio.Buffers;
 
 public class GameObject {
 
-    protected float size = 0.1f;
+    protected float size = 0.05f;
     protected Vector position = new Vector(0.0f, 0.0f);
-    protected Vector direction = new Vector(1f,1f);
+    protected Vector velocity = new Vector(0f, 0.5f);
+    protected float[] color = { 1f, 1f, 0f };
+
     protected void update(double theta) {
-        position.x += theta *  direction.x;
-        position.y += theta *  direction.y;
-        if (position.x > 1 || position.x < -1) {
-            direction.x *= -1;
+        // position.x += theta * direction.x;
+        position.y += theta * velocity.y;
+        if (position.y > 1.5) {
+            position.x = (float) Math.random() * 2 - 1;
+            velocity.y = (float) Math.random();
+            position.y = -2;
         }
-        if (position.y > 1 || position.y < -1) {
-            direction.y *= -1;
-        }
-        size = 0.1f;
     }
 
     protected void draw(GL2ES2 gl) {
-        
+
         float[] model_projection = new float[16];
         Matrix.setIdentityM(model_projection, 0);
         Matrix.translateM(model_projection, 0, position.x, position.y, 0f);
-        
+
         gl.glUniformMatrix4fv(Main.ModelViewProjectionMatrix_location, 1, false, model_projection, 0);
-        
+
         float[] vertices = { 1.0f, -1.0f, 0.0f, // Bottom Right
                 -1.0f, -1.0f, 0.0f, // Bottom Left
                 1.0f, 1.0f, 0.0f, // Top Right
@@ -41,7 +39,6 @@ public class GameObject {
         for (int i = 0; i < vertices.length; i++) {
             vertices[i] *= size;
         }
-        
 
         // This is done so that the data doesn't get garbage collected
         FloatBuffer fbVertices = Buffers.newDirectFloatBuffer(vertices);
@@ -49,10 +46,10 @@ public class GameObject {
         gl.glVertexAttribPointer(0, 3, GL2ES2.GL_FLOAT, false, 0, fbVertices);
         gl.glEnableVertexAttribArray(0);
 
-        float[] colors = { 1.0f, 1.0f, 0.0f, 1.0f, // Top color (red)
-                1.0f, 1.0f, 0.0f, 1.0f, // Bottom Left color (black)
-                1.0f, 1.0f, 0.0f, 0.9f, // Bottom Right color (yellow) with 10%
-                1.0f, 1.0f, 0.0f, 1.0f, // transparence
+        float[] colors = { color[0], color[1], color[2], 1.0f, // Top color (red)
+                color[0], color[1], color[2], 1.0f, // Bottom Left color (black)
+                color[0], color[1], color[2], 0.9f, // Bottom Right color (yellow) with 10%
+                color[0], color[1], color[2], 1.0f, // transparence
         };
 
         FloatBuffer fbColors = Buffers.newDirectFloatBuffer(colors);

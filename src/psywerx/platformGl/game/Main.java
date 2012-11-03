@@ -6,6 +6,8 @@ import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLProfile;
 
+import com.jogamp.newt.event.KeyEvent;
+import com.jogamp.newt.event.KeyListener;
 import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.util.Animator;
 
@@ -40,6 +42,43 @@ public class Main implements GLEventListener {
         glWindow.setVisible(true);
 
         glWindow.addGLEventListener(new Main());
+        glWindow.addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent key) {
+                switch (key.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                    game.direction -= 25f;
+                    game.player.direction.x -= 1f;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    game.direction += 25f;
+                    game.player.direction.x += 1f;
+                    break;
+                }
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent key) {
+                switch (key.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                    game.direction += 25f;
+                    game.player.direction.x += 1f;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    game.direction -= 25f;
+                    game.player.direction.x -= 1f;
+                    break;
+                }
+            }
+        });
         Animator animator = new Animator(glWindow);
         animator.add(glWindow);
         animator.start();
@@ -118,7 +157,7 @@ public class Main implements GLEventListener {
 
         // Update variables used in animation
         double t1 = System.currentTimeMillis();
-        theta = (t1 - t0)*0.001;
+        theta = (t1 - t0) * 0.001;
         t0 = t1;
 
         GL2ES2 gl = drawable.getGL().getGL2ES2();
@@ -144,7 +183,6 @@ public class Main implements GLEventListener {
 
     @Override
     public void dispose(GLAutoDrawable drawable) {
-        System.out.println("cleanup, remember to release shaders");
         GL2ES2 gl = drawable.getGL().getGL2ES2();
         gl.glUseProgram(0);
         gl.glDetachShader(shaderProgram, vertShader);
