@@ -13,7 +13,7 @@ import com.jogamp.opengl.util.Animator;
 
 public class Main implements GLEventListener {
 
-    protected static int WIDTH = 250;
+    protected static int WIDTH = 600;
     protected static int HEIGHT = 800;
 
     protected static final Game game = new Game();
@@ -22,8 +22,8 @@ public class Main implements GLEventListener {
     private double theta;
 
     protected static int shaderProgram;
-    protected static int ModelViewProjectionMatrix_location;
-    protected static int ModelProjectionMatrix_location;
+    protected static int projectionMatrix_location;
+    protected static int modelMatrix_location;
 
     private int vertShader;
     private int fragShader;
@@ -54,11 +54,9 @@ public class Main implements GLEventListener {
             public void keyReleased(KeyEvent key) {
                 switch (key.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                    game.direction -= 25f;
                     game.player.direction.x -= 1f;
                     break;
                 case KeyEvent.VK_RIGHT:
-                    game.direction += 25f;
                     game.player.direction.x += 1f;
                     break;
                 }
@@ -69,11 +67,9 @@ public class Main implements GLEventListener {
             public void keyPressed(KeyEvent key) {
                 switch (key.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                    game.direction += 25f;
                     game.player.direction.x += 1f;
                     break;
                 case KeyEvent.VK_RIGHT:
-                    game.direction -= 25f;
                     game.player.direction.x -= 1f;
                     break;
                 }
@@ -147,8 +143,8 @@ public class Main implements GLEventListener {
 
         // Get a id number to the uniform_Projection matrix
         // so that we can update it.
-        ModelViewProjectionMatrix_location = gl.glGetUniformLocation(shaderProgram, "uniform_Projection");
-        ModelProjectionMatrix_location = gl.glGetUniformLocation(shaderProgram, "uniform_Model");
+        projectionMatrix_location = gl.glGetUniformLocation(shaderProgram, "uniform_Projection");
+        modelMatrix_location = gl.glGetUniformLocation(shaderProgram, "uniform_Model");
 
     }
 
@@ -163,7 +159,6 @@ public class Main implements GLEventListener {
         GL2ES2 gl = drawable.getGL().getGL2ES2();
 
         game.tick(theta);
-
         game.draw(gl);
 
     }
@@ -173,11 +168,8 @@ public class Main implements GLEventListener {
         WIDTH = w;
         HEIGHT = h;
 
-        // Get gl
         GL2ES2 gl = drawable.getGL().getGL2ES2();
 
-        // Optional: Set viewport
-        // Render to a square at the center of the window.
         gl.glViewport(0, 0, WIDTH, HEIGHT);
     }
 

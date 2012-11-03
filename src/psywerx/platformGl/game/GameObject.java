@@ -25,11 +25,11 @@ public class GameObject {
 
     protected void draw(GL2ES2 gl) {
 
-        float[] model_projection = new float[16];
-        Matrix.setIdentityM(model_projection, 0);
-        Matrix.translateM(model_projection, 0, position.x, position.y, 0f);
+        float[] modelMatrix = new float[16];
+        Matrix.setIdentityM(modelMatrix, 0);
+        Matrix.translateM(modelMatrix, 0, position.x, position.y, 0f);
 
-        gl.glUniformMatrix4fv(Main.ModelViewProjectionMatrix_location, 1, false, model_projection, 0);
+        gl.glUniformMatrix4fv(Main.modelMatrix_location, 1, false, modelMatrix, 0);
 
         float[] vertices = { 1.0f, -1.0f, 0.0f, // Bottom Right
                 -1.0f, -1.0f, 0.0f, // Bottom Left
@@ -46,10 +46,10 @@ public class GameObject {
         gl.glVertexAttribPointer(0, 3, GL2ES2.GL_FLOAT, false, 0, fbVertices);
         gl.glEnableVertexAttribArray(0);
 
-        float[] colors = { color[0], color[1], color[2], 1.0f, // Top color (red)
-                color[0], color[1], color[2], 1.0f, // Bottom Left color (black)
-                color[0], color[1], color[2], 0.9f, // Bottom Right color (yellow) with 10%
-                color[0], color[1], color[2], 1.0f, // transparence
+        float[] colors = { color[0], color[1], color[2], 1.0f, // Top color
+                color[0], color[1], color[2], 1.0f, // Bottom Left color
+                color[0], color[1], color[2], 0.9f, // Bottom Right
+                color[0], color[1], color[2], 1.0f, // Transparency
         };
 
         FloatBuffer fbColors = Buffers.newDirectFloatBuffer(colors);

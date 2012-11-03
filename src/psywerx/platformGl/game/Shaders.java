@@ -21,7 +21,7 @@ public class Shaders {
          "void main(void) \n" +
          "{ \n" +
          "  varying_Color = attribute_Color; \n" +
-         "  gl_Position = uniform_Model * uniform_Projection * attribute_Position; \n" +
+         "  gl_Position = uniform_Projection * uniform_Model * attribute_Position; \n" +
          "} ";
 
          /* Introducing the OpenGL ES 2 Fragment shader
