@@ -45,9 +45,11 @@ public class Main implements GLEventListener {
         glWindow.addKeyListener(new KeyListener() {
 
             @Override
-            public void keyTyped(KeyEvent arg0) {
-                // TODO Auto-generated method stub
-
+            public void keyTyped(KeyEvent key) {
+                if (key.getKeyCode() == KeyEvent.VK_SPACE) {
+                    
+                    Main.game.reset();
+                }
             }
 
             @Override

@@ -6,28 +6,23 @@ import javax.media.opengl.GL2ES2;
 
 import com.jogamp.common.nio.Buffers;
 
-public class GameObject {
+public class Square implements Drawable {
 
     protected float size = 0.05f;
     protected Vector position = new Vector(0.0f, 0.0f);
     protected Vector velocity = new Vector(0f, 0.5f);
     protected float[] color = { 1f, 1f, 0f };
+    protected float z = 0.0f;
 
-    protected void update(double theta) {
-        // position.x += theta * direction.x;
-        position.y += theta * velocity.y;
-        if (position.y > 1.5) {
-            position.x = (float) Math.random() * 2 - 1;
-            velocity.y = (float) Math.random();
-            position.y = -2;
-        }
+    public void update(double theta) {
+        
     }
 
-    protected void draw(GL2ES2 gl) {
-
+    public void draw(GL2ES2 gl) {
+        
         float[] modelMatrix = new float[16];
         Matrix.setIdentityM(modelMatrix, 0);
-        Matrix.translateM(modelMatrix, 0, position.x, position.y, 0f);
+        Matrix.translateM(modelMatrix, 0, position.x, position.y, z);
 
         gl.glUniformMatrix4fv(Main.modelMatrix_location, 1, false, modelMatrix, 0);
 
@@ -69,4 +64,5 @@ public class GameObject {
         fbVertices = null;
         fbColors = null;
     }
+
 }

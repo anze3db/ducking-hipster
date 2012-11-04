@@ -6,22 +6,26 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
 
 public class Game {
-    LinkedList<GameObject> objects = new LinkedList<GameObject>();
+    LinkedList<Obstacle> objects = new LinkedList<Obstacle>();
     protected float smoothDirection;
     protected Player player;
+    protected Background bg;
+    protected boolean dead = false;
 
     protected Game() {
         for (int i = 0; i < 10; i++) {
-            GameObject g = new GameObject();
-            g.position.x = (float) (Math.random());
+            Obstacle g = new Obstacle();
+            g.obstacle.position.x = (float) (Math.random());
             objects.add(g);
         }
         player = new Player();
+        bg = new Background();
     }
 
     protected void tick(double theta) {
+        if(dead) return;
         player.update(theta);
-        for (GameObject o : objects) {
+        for (Obstacle o : objects) {
             o.update(theta);
         }
     }
@@ -48,9 +52,26 @@ public class Game {
         gl.glUniformMatrix4fv(Main.projectionMatrix_location, 1, false, projection, 0);
 
         // Draw actual stuff:
+        bg.draw(gl);
         player.draw(gl);
-        for (GameObject g : objects) {
+        for (Obstacle g : objects) {
             g.draw(gl);
         }
+        
+    }
+
+    public void reset() {
+        bg.bgSquare.color = new float[] { 0.2f, 0.2f, 0.2f };
+        dead = false;
+        for (Obstacle o : objects) {
+            o.obstacle.position = new Vector((float) Math.random(), -1f);
+            o.obstacle.color    = new float[] { 1f, 1f, 0f };
+        }
+    }
+
+    public void die() {
+        dead = true;
+        bg.bgSquare.color = new float[] { 0.6f, 0.2f, 0.2f };
+        
     }
 }
