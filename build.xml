@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project ducking-hipster with Jar-in-Jar Loader">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="ducking-hipster.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="psywerx.platformGl.game.Main"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ gluegen-rt.jar jogl-all.jar gluegen-rt-natives-linux-amd64.jar jogl-all-natives-linux-amd64.jar"/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <fileset dir="bin"/>
+            <zipfileset dir="lib" includes="gluegen-rt.jar"/>
+            <zipfileset dir="lib" includes="jogl-all.jar"/>
+            <zipfileset dir="lib" includes="gluegen-rt-natives-linux-amd64.jar"/>
+            <zipfileset dir="lib" includes="jogl-all-natives-linux-amd64.jar"/>
+        </jar>
+    </target>
+</project>
