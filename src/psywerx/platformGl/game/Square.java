@@ -43,7 +43,7 @@ public class Square implements Drawable {
 
         float[] colors = { color[0], color[1], color[2], 1.0f, // Top color
                 color[0], color[1], color[2], 1.0f, // Bottom Left color
-                color[0], color[1], color[2], 0.9f, // Bottom Right
+                color[0], color[1], color[2], 1.0f, // Bottom Right
                 color[0], color[1], color[2], 1.0f, // Transparency
         };
 
