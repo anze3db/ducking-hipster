@@ -5,6 +5,7 @@ import javax.media.opengl.GL2ES2;
 public class Player implements Drawable {
 
     protected Vector direction = new Vector(0.0f, 1.0f);
+    protected Vector speed     = new Vector(0.0f, 0.0f);
     protected Square[] pieces;
     private Square shadow;
     protected Square main;
@@ -30,13 +31,20 @@ public class Player implements Drawable {
     }
 
     public void update(double theta) {
-
-        main.position.x += direction.x * 0.03f;
+        
+        main.position.y = 0.5f;
+        speed.x += theta*4;
+        if(direction.x == 0)
+            speed.x = 0f;
+        
+        main.position.x += direction.x * 0.03f * speed.x;
         if (main.position.x < -0.95f) {
             main.position.x = -0.95f;
+            speed.x = 0;
         }
         if (main.position.x > 0.95) {
             main.position.x = 0.95f;
+            speed.x = 0;
         }
         shadow.position.x = main.position.x - 0.01f;
         shadow.position.y = main.position.y - 0.01f;

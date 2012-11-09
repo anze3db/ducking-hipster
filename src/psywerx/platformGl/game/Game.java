@@ -12,18 +12,28 @@ public class Game {
     protected Background bg;
     protected boolean dead = false;
 
+    private double score = 0;
+
+    private double lastCreated = 0;
+
     protected Game() {
-        for (int i = 0; i < 10; i++) {
-            Obstacle g = new Obstacle();
-            g.obstacle.position.x = (float) (Math.random());
-            objects.add(g);
-        }
         player = new Player();
         bg = new Background();
     }
 
     protected void tick(double theta) {
-        if(dead) return;
+        score += theta;
+        lastCreated += theta;
+        if (lastCreated > 1 && !Main.game.dead) {
+            lastCreated = 0;
+            Obstacle o = new Obstacle();
+            o.obstacle.position.x = (float) Math.random() * 2 - 1;
+            o.obstacle.velocity.y = (float) Math.random();
+            o.obstacle.position.y = -1;
+            objects.add(o);
+        }
+
+        if (dead) return;
         player.update(theta);
         for (Obstacle o : objects) {
             o.update(theta);
@@ -57,21 +67,19 @@ public class Game {
         for (Obstacle g : objects) {
             g.draw(gl);
         }
-        
     }
 
     public void reset() {
         bg.bgSquare.color = new float[] { 0.2f, 0.2f, 0.2f };
         dead = false;
-        for (Obstacle o : objects) {
-            o.obstacle.position = new Vector((float) Math.random(), -1f);
-            o.obstacle.color    = new float[] { 1f, 1f, 0f };
-        }
+        Main.game.objects = new LinkedList<Obstacle>();
+        score = 0;
     }
 
     public void die() {
         dead = true;
         bg.bgSquare.color = new float[] { 0.6f, 0.2f, 0.2f };
-        
+        System.out.println("You are score " + score);
+
     }
 }

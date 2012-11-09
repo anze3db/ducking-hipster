@@ -20,7 +20,8 @@ public class Obstacle implements Drawable {
         // position.x += theta * direction.x;
         obstacle.position.y += theta * velocity.y;
         
-        if (obstacle.position.y > Main.game.player.main.position.y - 2 * Main.game.player.main.size){
+        if (obstacle.position.y > Main.game.player.main.position.y - 2 * Main.game.player.main.size &&
+                obstacle.position.y < Main.game.player.main.position.y + 2 * Main.game.player.main.size){
             if(obstacle.position.x + obstacle.size > Main.game.player.main.position.x - Main.game.player.main.size && 
                     obstacle.position.x - obstacle.size < Main.game.player.main.position.x + Main.game.player.main.size){
                 // Collision:
