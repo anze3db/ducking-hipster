@@ -3,33 +3,67 @@
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
     <target name="create_run_jar">
-        <jar destfile="/home/smotko/coding/ducking-hipster/ducking-hipster.jar">
+        <jar destfile="ducking-hipster.jar">
             <manifest>
                 <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
                 <attribute name="Rsrc-Main-Class" value="psywerx.platformGl.game.Main"/>
                 <attribute name="Class-Path" value="."/>
-                <attribute name="Rsrc-Class-Path" value="./ gluegen-rt.jar jogl-all.jar gluegen-rt-natives-linux-amd64.jar jogl-all-natives-linux-amd64.jar jogl-all-natives-linux-armv6.jar jogl-all-natives-linux-armv6hf.jar jogl-all-natives-linux-i586.jar jogl-all-natives-macosx-universal.jar jogl-all-natives-solaris-amd64.jar jogl-all-natives-solaris-i586.jar jogl-all-natives-windows-amd64.jar jogl-all-natives-windows-i586.jar gluegen-rt-natives-linux-armv6hf.jar gluegen-rt-natives-linux-armv7.jar gluegen-rt-natives-linux-i586.jar gluegen-rt-natives-macosx-universal.jar gluegen-rt-natives-windows-amd64.jar gluegen-rt-natives-windows-i586.jar"/>
+                <attribute name="Rsrc-Class-Path" value="./ gluegen-rt.jar jogl-all.jar gluegen-rt-natives-linux-amd64.jar jogl-all-natives-linux-amd64.jar jogl-all-natives-linux-armv6.jar jogl-all-natives-linux-armv6hf.jar jogl-all-natives-linux-i586.jar jogl-all-natives-macosx-universal.jar jogl-all-natives-solaris-amd64.jar jogl-all-natives-solaris-i586.jar jogl-all-natives-windows-amd64.jar jogl-all-natives-windows-i586.jar jogl-all-noawt.jar gluegen-rt-natives-android-armv6.jar gluegen-rt-natives-linux-armv6.jar gluegen-rt-natives-linux-armv6hf.jar gluegen-rt-natives-linux-armv7.jar gluegen-rt-natives-linux-i586.jar gluegen-rt-natives-macosx-universal.jar gluegen-rt-natives-solaris-amd64.jar gluegen-rt-natives-solaris-i586.jar gluegen-rt-natives-windows-amd64.jar gluegen-rt-natives-windows-i586.jar gluegen.jar joal-natives-android-armv6.jar joal-natives-linux-amd64.jar joal-natives-linux-armv6.jar joal-natives-linux-armv6hf.jar joal-natives-linux-i586.jar joal-natives-macosx-universal.jar joal-natives-solaris-amd64.jar joal-natives-solaris-i586.jar joal-natives-windows-amd64.jar joal-natives-windows-i586.jar joal-test.jar joal.jar jocl-natives-android-armv6.jar jocl-natives-linux-amd64.jar jocl-natives-linux-armv6.jar jocl-natives-linux-armv6hf.jar jocl-natives-linux-i586.jar jocl-natives-macosx-universal.jar jocl-natives-solaris-amd64.jar jocl-natives-solaris-i586.jar jocl-natives-windows-amd64.jar jocl-natives-windows-i586.jar jocl.jar jogl-all-android.jar jogl-all-mobile.jar jogl-all-natives-android-armv6.jar jogl-test-android.jar jogl-test.jar"/>
             </manifest>
             <zipfileset src="jar-in-jar-loader.zip"/>
-            <fileset dir="/home/smotko/coding/ducking-hipster/bin"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="gluegen-rt.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="jogl-all.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="gluegen-rt-natives-linux-amd64.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="jogl-all-natives-linux-amd64.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="jogl-all-natives-linux-armv6.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="jogl-all-natives-linux-armv6hf.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="jogl-all-natives-linux-i586.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="jogl-all-natives-macosx-universal.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="jogl-all-natives-solaris-amd64.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="jogl-all-natives-solaris-i586.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="jogl-all-natives-windows-amd64.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="jogl-all-natives-windows-i586.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="gluegen-rt-natives-linux-armv6hf.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="gluegen-rt-natives-linux-armv7.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="gluegen-rt-natives-linux-i586.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="gluegen-rt-natives-macosx-universal.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="gluegen-rt-natives-windows-amd64.jar"/>
-            <zipfileset dir="/home/smotko/coding/ducking-hipster/lib" includes="gluegen-rt-natives-windows-i586.jar"/>
+            <fileset dir="bin"/>
+            <zipfileset dir="lib" includes="gluegen-rt.jar"/>
+            <zipfileset dir="lib" includes="jogl-all.jar"/>
+            <zipfileset dir="lib" includes="gluegen-rt-natives-linux-amd64.jar"/>
+            <zipfileset dir="lib" includes="jogl-all-natives-linux-amd64.jar"/>
+            <zipfileset dir="lib" includes="jogl-all-natives-linux-armv6.jar"/>
+            <zipfileset dir="lib" includes="jogl-all-natives-linux-armv6hf.jar"/>
+            <zipfileset dir="lib" includes="jogl-all-natives-linux-i586.jar"/>
+            <zipfileset dir="lib" includes="jogl-all-natives-macosx-universal.jar"/>
+            <zipfileset dir="lib" includes="jogl-all-natives-solaris-amd64.jar"/>
+            <zipfileset dir="lib" includes="jogl-all-natives-solaris-i586.jar"/>
+            <zipfileset dir="lib" includes="jogl-all-natives-windows-amd64.jar"/>
+            <zipfileset dir="lib" includes="jogl-all-natives-windows-i586.jar"/>
+            <zipfileset dir="lib" includes="jogl-all-noawt.jar"/>
+            <zipfileset dir="lib" includes="gluegen-rt-natives-android-armv6.jar"/>
+            <zipfileset dir="lib" includes="gluegen-rt-natives-linux-armv6.jar"/>
+            <zipfileset dir="lib" includes="gluegen-rt-natives-linux-armv6hf.jar"/>
+            <zipfileset dir="lib" includes="gluegen-rt-natives-linux-armv7.jar"/>
+            <zipfileset dir="lib" includes="gluegen-rt-natives-linux-i586.jar"/>
+            <zipfileset dir="lib" includes="gluegen-rt-natives-macosx-universal.jar"/>
+            <zipfileset dir="lib" includes="gluegen-rt-natives-solaris-amd64.jar"/>
+            <zipfileset dir="lib" includes="gluegen-rt-natives-solaris-i586.jar"/>
+            <zipfileset dir="lib" includes="gluegen-rt-natives-windows-amd64.jar"/>
+            <zipfileset dir="lib" includes="gluegen-rt-natives-windows-i586.jar"/>
+            <zipfileset dir="lib" includes="gluegen.jar"/>
+            <zipfileset dir="lib" includes="joal-natives-android-armv6.jar"/>
+            <zipfileset dir="lib" includes="joal-natives-linux-amd64.jar"/>
+            <zipfileset dir="lib" includes="joal-natives-linux-armv6.jar"/>
+            <zipfileset dir="lib" includes="joal-natives-linux-armv6hf.jar"/>
+            <zipfileset dir="lib" includes="joal-natives-linux-i586.jar"/>
+            <zipfileset dir="lib" includes="joal-natives-macosx-universal.jar"/>
+            <zipfileset dir="lib" includes="joal-natives-solaris-amd64.jar"/>
+            <zipfileset dir="lib" includes="joal-natives-solaris-i586.jar"/>
+            <zipfileset dir="lib" includes="joal-natives-windows-amd64.jar"/>
+            <zipfileset dir="lib" includes="joal-natives-windows-i586.jar"/>
+            <zipfileset dir="lib" includes="joal-test.jar"/>
+            <zipfileset dir="lib" includes="joal.jar"/>
+            <zipfileset dir="lib" includes="jocl-natives-android-armv6.jar"/>
+            <zipfileset dir="lib" includes="jocl-natives-linux-amd64.jar"/>
+            <zipfileset dir="lib" includes="jocl-natives-linux-armv6.jar"/>
+            <zipfileset dir="lib" includes="jocl-natives-linux-armv6hf.jar"/>
+            <zipfileset dir="lib" includes="jocl-natives-linux-i586.jar"/>
+            <zipfileset dir="lib" includes="jocl-natives-macosx-universal.jar"/>
+            <zipfileset dir="lib" includes="jocl-natives-solaris-amd64.jar"/>
+            <zipfileset dir="lib" includes="jocl-natives-solaris-i586.jar"/>
+            <zipfileset dir="lib" includes="jocl-natives-windows-amd64.jar"/>
+            <zipfileset dir="lib" includes="jocl-natives-windows-i586.jar"/>
+            <zipfileset dir="lib" includes="jocl.jar"/>
+            <zipfileset dir="lib" includes="jogl-all-android.jar"/>
+            <zipfileset dir="lib" includes="jogl-all-mobile.jar"/>
+            <zipfileset dir="lib" includes="jogl-all-natives-android-armv6.jar"/>
+            <zipfileset dir="lib" includes="jogl-test-android.jar"/>
+            <zipfileset dir="lib" includes="jogl-test.jar"/>
         </jar>
     </target>
 </project>
