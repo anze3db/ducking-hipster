@@ -32,7 +32,10 @@ public class Game {
             o.obstacle.position.y = -1;
             objects.add(o);
         }
-
+        
+        smoothDirection = ((player.direction.x * 25f)*(float)theta*60 * 0.2f + smoothDirection * 0.8f);
+        if(smoothDirection > 25) smoothDirection = 25.5f;
+        if(smoothDirection < -25) smoothDirection = -25.5f;
         if (dead) return;
         player.update(theta);
         for (Obstacle o : objects) {
@@ -58,8 +61,8 @@ public class Game {
         float[] model_projection = new float[16];
         Matrix.setLookAtM(model_projection, 0, 0f, 0f, -4, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         Matrix.frustumM(model_view_projection, 0, -ratio, ratio, -1, 1, 3, 7);
-
-        smoothDirection = (player.direction.x * 25f) * 0.2f + smoothDirection * 0.8f;
+        //smoothDirection = 0.0f;
+        System.out.println(smoothDirection);
         Matrix.rotateM(model_projection, 0, -smoothDirection / 1.5f, 0, 1f, 0f);
 
         float[] projection = new float[16];

@@ -37,7 +37,7 @@ public class Player implements Drawable {
         if(direction.x == 0)
             speed.x = 0f;
         
-        main.position.x += direction.x * 0.03f * speed.x;
+        main.position.x += direction.x * theta*2 * speed.x;
         if (main.position.x < -0.95f) {
             main.position.x = -0.95f;
             speed.x = 0;
