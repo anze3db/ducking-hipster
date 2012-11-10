@@ -1,5 +1,10 @@
 package psywerx.platformGl.game;
 
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+
+import static javax.media.opengl.GL.*;
 import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
@@ -24,9 +29,13 @@ public class Main implements GLEventListener {
     protected static int shaderProgram;
     protected static int projectionMatrix_location;
     protected static int modelMatrix_location;
+    protected static int sampler_location;
 
     private int vertShader;
     private int fragShader;
+    private int mSamplerLoc;
+    private int textureId;
+    protected static int texture1;
 
     public static void main(String[] args) {
 
@@ -47,7 +56,7 @@ public class Main implements GLEventListener {
             @Override
             public void keyTyped(KeyEvent key) {
                 if (key.getKeyCode() == KeyEvent.VK_SPACE) {
-                    
+
                     Main.game.reset();
                 }
             }
@@ -80,6 +89,41 @@ public class Main implements GLEventListener {
         Animator animator = new Animator(glWindow);
         animator.add(glWindow);
         animator.start();
+    }
+    
+    private int createSimpleTexture2D(GL2ES2 gl )
+    {
+        // Texture object handle
+        int[] textureId = new int[1];
+        
+        // 2x2 Image, 3 bytes per pixel (R, G, B)
+        byte[] pixels = 
+            {  
+                (byte) 0xff,   0,   0, // Red
+                0, (byte) 0xff,   0, // Green
+                0,   0, (byte) 0xff, // Blue
+                (byte) 0xff, (byte) 0xff,   0  // Yellow
+            };
+        ByteBuffer pixelBuffer = ByteBuffer.allocateDirect(4*3);
+        pixelBuffer.put(pixels).position(0);
+
+        // Use tightly packed data
+        gl.glPixelStorei ( GL_UNPACK_ALIGNMENT, 1 );
+
+        //  Generate a texture object
+        gl.glGenTextures ( 1, textureId, 0 );
+
+        // Bind the texture object
+        gl.glBindTexture ( GL_TEXTURE_2D, textureId[0] );
+
+        //  Load the texture
+        gl.glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, 2, 2, 0, GL_RGB, GL_UNSIGNED_BYTE, pixelBuffer );
+
+        // Set the filtering mode
+        gl.glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+        gl.glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+
+        return textureId[0];        
     }
 
     @Override
@@ -140,13 +184,16 @@ public class Main implements GLEventListener {
         // the vertex shader.
         gl.glBindAttribLocation(shaderProgram, 0, "attribute_Position");
         gl.glBindAttribLocation(shaderProgram, 1, "attribute_Color");
-
+        mSamplerLoc = gl.glGetUniformLocation (shaderProgram, "s_texture" );
         gl.glLinkProgram(shaderProgram);
-
+        
+        texture1 = createSimpleTexture2D(gl);
+        
         // Get a id number to the uniform_Projection matrix
         // so that we can update it.
         projectionMatrix_location = gl.glGetUniformLocation(shaderProgram, "uniform_Projection");
         modelMatrix_location = gl.glGetUniformLocation(shaderProgram, "uniform_Model");
+        sampler_location = gl.glGetUniformLocation(shaderProgram, "s_texture");
 
     }
 

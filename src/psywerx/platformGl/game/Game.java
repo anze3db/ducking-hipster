@@ -47,6 +47,12 @@ public class Game {
         gl.glClear(GL2ES2.GL_STENCIL_BUFFER_BIT | GL2ES2.GL_COLOR_BUFFER_BIT | GL2ES2.GL_DEPTH_BUFFER_BIT);
         gl.glUseProgram(Main.shaderProgram);
 
+        int loc = gl.glGetUniformLocation(Main.shaderProgram, "s_texture");
+        gl.glUniform1i(loc, 0);
+        gl.glActiveTexture(GL.GL_TEXTURE0);
+        gl.glBindTexture(GL.GL_TEXTURE_2D, Main.texture1);
+        
+        
         float[] model_view_projection = new float[16]; // Gets sent to the
         float ratio = Main.WIDTH / (float) Main.HEIGHT;
         float[] model_projection = new float[16];

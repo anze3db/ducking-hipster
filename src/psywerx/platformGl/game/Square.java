@@ -2,6 +2,7 @@ package psywerx.platformGl.game;
 
 import java.nio.FloatBuffer;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
 
 import com.jogamp.common.nio.Buffers;
@@ -40,7 +41,7 @@ public class Square implements Drawable {
 
         gl.glVertexAttribPointer(0, 3, GL2ES2.GL_FLOAT, false, 0, fbVertices);
         gl.glEnableVertexAttribArray(0);
-
+        
         float[] colors = { color[0], color[1], color[2], 1.0f, // Top color
                 color[0], color[1], color[2], 1.0f, // Bottom Left color
                 color[0], color[1], color[2], 1.0f, // Bottom Right
@@ -52,7 +53,33 @@ public class Square implements Drawable {
         gl.glVertexAttribPointer(1, 4, GL2ES2.GL_FLOAT, false, 0, fbColors);
         gl.glEnableVertexAttribArray(1);
 
+        
+        float[] tex = {
+                0.0f, 0.0f, // TexCoord 0
+                1.0f, 0.0f, // TexCoord 1
+                0.0f, 1.0f, // TexCoord 2
+                1.0f, 1.0f // TexCoord 3
+        };
+
+        FloatBuffer t = Buffers.newDirectFloatBuffer(tex);
+        
+
+        gl.glVertexAttribPointer(2, 2, GL2ES2.GL_FLOAT, false, 0, t);
+        gl.glEnableVertexAttribArray(2);
+        
+        gl.glActiveTexture (GL.GL_TEXTURE0 );
+        gl.glBindTexture ( GL.GL_TEXTURE_2D, Main.texture1);
+
+        // Set the sampler texture unit to 0
+        gl.glUniform1i ( Main.sampler_location, 0 );
+        
+        
+        
+        
         gl.glDrawArrays(GL2ES2.GL_TRIANGLE_STRIP, 0, 4); // Draw the vertices as
+        
+        
+        
 
         gl.glDisableVertexAttribArray(0); // Allow release of vertex position
                                           // memory

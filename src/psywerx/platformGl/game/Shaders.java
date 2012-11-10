@@ -18,10 +18,15 @@ public class Shaders {
 
          "varying vec4    varying_Color; \n" + // Outgoing varying data
                                                // sent to the fragment shader
+         
+         "attribute vec2 a_texCoord; \n" +
+         "varying vec2 v_texCoord; \n" +
+         
          "void main(void) \n" +
          "{ \n" +
          "  varying_Color = attribute_Color; \n" +
          "  gl_Position = uniform_Projection * uniform_Model * attribute_Position; \n" +
+         "  v_texCoord = a_texCoord; \n" +
          "} ";
 
          /* Introducing the OpenGL ES 2 Fragment shader
@@ -58,9 +63,10 @@ public class Shaders {
     
          "varying   vec4    varying_Color; \n" + //incomming varying data to the
                                                  //frament shader
-                                                 //sent from the vertex shader
+         "varying vec2 v_texCoord; \n" +
+         "uniform sampler2D s_texture; \n" +
          "void main (void) \n" +
          "{ \n" +
-         "  gl_FragColor = varying_Color; \n" +
+         "  gl_FragColor = texture2D(s_texture, v_texCoord); \n" +  //"  gl_FragColor = varying_Color; \n" +
          "} ";
 }
