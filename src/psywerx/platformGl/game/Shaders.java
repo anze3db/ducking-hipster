@@ -67,6 +67,6 @@ public class Shaders {
          "uniform sampler2D s_texture; \n" +
          "void main (void) \n" +
          "{ \n" +
-         "  gl_FragColor = texture2D(s_texture, v_texCoord); \n" +  //"  gl_FragColor = varying_Color; \n" +
+         "gl_FragColor = varying_Color; \n" + //"  gl_FragColor = texture2D(s_texture, v_texCoord); \n" +  //"  gl_FragColor = varying_Color; \n" +
          "} ";
 }
