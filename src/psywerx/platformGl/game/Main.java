@@ -1,10 +1,15 @@
 package psywerx.platformGl.game;
 
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
+import static javax.media.opengl.GL.GL_NEAREST;
+import static javax.media.opengl.GL.GL_RGB;
+import static javax.media.opengl.GL.GL_TEXTURE_2D;
+import static javax.media.opengl.GL.GL_TEXTURE_MAG_FILTER;
+import static javax.media.opengl.GL.GL_TEXTURE_MIN_FILTER;
+import static javax.media.opengl.GL.GL_UNPACK_ALIGNMENT;
+import static javax.media.opengl.GL.GL_UNSIGNED_BYTE;
 
-import static javax.media.opengl.GL.*;
+import java.nio.ByteBuffer;
+
 import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
@@ -33,8 +38,6 @@ public class Main implements GLEventListener {
 
     private int vertShader;
     private int fragShader;
-    private int mSamplerLoc;
-    private int textureId;
     protected static int texture1;
 
     public static void main(String[] args) {
@@ -184,7 +187,7 @@ public class Main implements GLEventListener {
         // the vertex shader.
         gl.glBindAttribLocation(shaderProgram, 0, "attribute_Position");
         gl.glBindAttribLocation(shaderProgram, 1, "attribute_Color");
-        mSamplerLoc = gl.glGetUniformLocation (shaderProgram, "s_texture" );
+        gl.glGetUniformLocation (shaderProgram, "s_texture" );
         gl.glLinkProgram(shaderProgram);
         
         texture1 = createSimpleTexture2D(gl);
