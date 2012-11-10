@@ -18,7 +18,8 @@ public class Player implements Drawable {
 
         shadow.color = new float[] { 0.0f, 0.0f, 0.0f };
         main.color = new float[] { 0.0f, 0.0f, 1.0f };
-
+        main.c = 'H';
+        
         main.z = -0.0021f;
         shadow.z = -0.0011f;
 

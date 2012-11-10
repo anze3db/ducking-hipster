@@ -1,20 +1,27 @@
 package psywerx.platformGl.game;
 
 import static javax.media.opengl.GL.GL_NEAREST;
-import static javax.media.opengl.GL.GL_RGB;
+import static javax.media.opengl.GL.GL_RGBA;
 import static javax.media.opengl.GL.GL_TEXTURE_2D;
 import static javax.media.opengl.GL.GL_TEXTURE_MAG_FILTER;
 import static javax.media.opengl.GL.GL_TEXTURE_MIN_FILTER;
 import static javax.media.opengl.GL.GL_UNPACK_ALIGNMENT;
 import static javax.media.opengl.GL.GL_UNSIGNED_BYTE;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.Raster;
+import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
+import javax.imageio.ImageIO;
 import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLProfile;
+
 
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
@@ -35,6 +42,7 @@ public class Main implements GLEventListener {
     protected static int projectionMatrix_location;
     protected static int modelMatrix_location;
     protected static int sampler_location;
+    protected static int isText_location;
 
     private int vertShader;
     private int fragShader;
@@ -74,8 +82,8 @@ public class Main implements GLEventListener {
                     game.player.direction.x += 1f;
                     break;
                 }
-                if(game.player.direction.x > 1) game.player.direction.x = 1f;
-                if(game.player.direction.x < -1) game.player.direction.x = -1f;
+                if (game.player.direction.x > 1) game.player.direction.x = 1f;
+                if (game.player.direction.x < -1) game.player.direction.x = -1f;
 
             }
 
@@ -89,48 +97,66 @@ public class Main implements GLEventListener {
                     game.player.direction.x -= 1f;
                     break;
                 }
-                if(game.player.direction.x > 1) game.player.direction.x = 1f;
-                if(game.player.direction.x < -1) game.player.direction.x = -1f;
+                if (game.player.direction.x > 1) game.player.direction.x = 1f;
+                if (game.player.direction.x < -1) game.player.direction.x = -1f;
             }
         });
         Animator animator = new Animator(glWindow);
         animator.add(glWindow);
         animator.start();
     }
-    
-    private int createSimpleTexture2D(GL2ES2 gl )
-    {
+
+    private int createSimpleTexture2D(GL2ES2 gl) {
         // Texture object handle
         int[] textureId = new int[1];
+
+        byte[] p = null;
+        
+        try {
+            BufferedImage image = ImageIO.read(new File("res/text.png"));
+            
+            Raster d = image.getData();
+            int[] aaa = null;
+            int[] pixels = d.getPixels(0, 0, image.getWidth(), image.getHeight(), aaa);
+            p = new byte[pixels.length];
+            for (int i = 0; i < pixels.length; i++) {
+                p[i] = (byte)pixels[i]; //p[i] = (byte)(pixels[i]);
+            }
+            
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        
         
         // 2x2 Image, 3 bytes per pixel (R, G, B)
-        byte[] pixels = 
-            {  
-                (byte) 0xff,   0,   0, // Red
-                0, (byte) 0xff,   0, // Green
-                0,   0, (byte) 0xff, // Blue
-                (byte) 0xff, (byte) 0xff,   0  // Yellow
-            };
-        ByteBuffer pixelBuffer = ByteBuffer.allocateDirect(4*3);
-        pixelBuffer.put(pixels).position(0);
+        byte[] pixels = { (byte)0xff, 0, 0, (byte)0xff, // Red
+                (byte)0xff, 0, 0, 0, // Red
+                (byte)0xff, 0, 0, 0, // Red
+                (byte)0xff,(byte) 0xff, 0, (byte)0xff// Yellow
+        };
+        
+        ByteBuffer pixelBuffer = ByteBuffer.wrap(p);
 
         // Use tightly packed data
-        gl.glPixelStorei ( GL_UNPACK_ALIGNMENT, 1 );
+        gl.glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-        //  Generate a texture object
-        gl.glGenTextures ( 1, textureId, 0 );
+        // Generate a texture object
+        gl.glGenTextures(1, textureId, 0);
 
         // Bind the texture object
-        gl.glBindTexture ( GL_TEXTURE_2D, textureId[0] );
+        gl.glBindTexture(GL_TEXTURE_2D, textureId[0]);
 
-        //  Load the texture
-        gl.glTexImage2D ( GL_TEXTURE_2D, 0, GL_RGB, 2, 2, 0, GL_RGB, GL_UNSIGNED_BYTE, pixelBuffer );
+        // Load the texture
+        gl.glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 512, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixelBuffer);
 
         // Set the filtering mode
-        gl.glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-        gl.glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+        gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        return textureId[0];        
+        return textureId[0];
     }
 
     @Override
@@ -193,7 +219,7 @@ public class Main implements GLEventListener {
         gl.glBindAttribLocation(shaderProgram, 1, "attribute_Color");
         gl.glGetUniformLocation (shaderProgram, "s_texture" );
         gl.glLinkProgram(shaderProgram);
-        
+
         texture1 = createSimpleTexture2D(gl);
         
         // Get a id number to the uniform_Projection matrix
@@ -201,6 +227,7 @@ public class Main implements GLEventListener {
         projectionMatrix_location = gl.glGetUniformLocation(shaderProgram, "uniform_Projection");
         modelMatrix_location = gl.glGetUniformLocation(shaderProgram, "uniform_Model");
         sampler_location = gl.glGetUniformLocation(shaderProgram, "s_texture");
+        isText_location = gl.glGetUniformLocation(shaderProgram, "u_isText");
 
     }
 

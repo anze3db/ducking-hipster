@@ -65,8 +65,17 @@ public class Shaders {
                                                  //frament shader
          "varying vec2 v_texCoord; \n" +
          "uniform sampler2D s_texture; \n" +
+         "uniform float u_isText; \n" +
          "void main (void) \n" +
          "{ \n" +
-         "  gl_FragColor = varying_Color; \n" +//"  gl_FragColor = texture2D(s_texture, v_texCoord); \n" +  //"  gl_FragColor = varying_Color; \n" +
-         "} ";
+         "  if(u_isText < 0.5){\n" +
+         "    gl_FragColor = texture2D(s_texture, v_texCoord.st, 0.0).w * varying_Color; \n" +
+         "  } else { \n" +
+         //"    gl_FragColor = texture2D(s_texture, v_texCoord.st, 0.0) * varying_Color; \n" +
+//         "  vec4 basecolor = texture2D(s_texture, v_texCoord); \n"+
+//         "  if(basecolor.a == 0.0) basecolor = varying_Color; \n " +
+//         "  gl_FragColor = basecolor; \n" +
+         "  gl_FragColor = varying_Color; \n" +
+         //"  gl_FragColor = texture2D(s_texture, v_texCoord); \n" +  //"  gl_FragColor = varying_Color; \n" +
+         "}} ";
 }

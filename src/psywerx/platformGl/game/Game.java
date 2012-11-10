@@ -15,14 +15,20 @@ public class Game {
     private double score = 0;
 
     private double lastCreated = 0;
+    private Text title;
+    private Text scoreText;
 
     protected Game() {
         player = new Player();
         bg = new Background();
+        title = new Text("Ducking Hipster", new Vector(0.9f, 1.2f));
+        scoreText = new Text("            ", new Vector(0.9f, -1.2f));
     }
 
     protected void tick(double theta) {
-        score += theta;
+        if(!dead)
+            score += theta;
+        scoreText.updateText((String.format("%06.1f", score)));
         lastCreated += theta;
         if (lastCreated > 1 && !Main.game.dead) {
             lastCreated = 0;
@@ -62,20 +68,22 @@ public class Game {
         Matrix.setLookAtM(model_projection, 0, 0f, 0f, -4, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         Matrix.frustumM(model_view_projection, 0, -ratio, ratio, -1, 1, 3, 7);
         //smoothDirection = 0.0f;
-        System.out.println(smoothDirection);
         Matrix.rotateM(model_projection, 0, -smoothDirection / 1.5f, 0, 1f, 0f);
 
         float[] projection = new float[16];
         Matrix.multiplyMM(projection, 0, model_view_projection, 0, model_projection, 0);
-
+        
         gl.glUniformMatrix4fv(Main.projectionMatrix_location, 1, false, projection, 0);
 
         // Draw actual stuff:
         bg.draw(gl);
         player.draw(gl);
+        
         for (Obstacle g : objects) {
             g.draw(gl);
         }
+        title.draw(gl);
+        scoreText.draw(gl);
     }
 
     public void reset() {

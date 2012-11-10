@@ -7,10 +7,12 @@ public class Obstacle implements Drawable {
     protected Vector velocity = new Vector(0f, 0.5f);
     protected Square obstacle;
     private Square shadow;
+    
 
     public Obstacle() {
         obstacle = new Square();
         obstacle.z = -0.002f;
+        obstacle.c = 'D';
         shadow = new Square();
         shadow.color = new float[] { 0f, 0f, 0f };
         shadow.z = -0.001f;
