@@ -74,6 +74,8 @@ public class Main implements GLEventListener {
                     game.player.direction.x += 1f;
                     break;
                 }
+                if(game.player.direction.x > 1) game.player.direction.x = 1f;
+                if(game.player.direction.x < -1) game.player.direction.x = -1f;
 
             }
 
@@ -87,6 +89,8 @@ public class Main implements GLEventListener {
                     game.player.direction.x -= 1f;
                     break;
                 }
+                if(game.player.direction.x > 1) game.player.direction.x = 1f;
+                if(game.player.direction.x < -1) game.player.direction.x = -1f;
             }
         });
         Animator animator = new Animator(glWindow);
