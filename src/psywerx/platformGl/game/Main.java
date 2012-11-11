@@ -113,7 +113,7 @@ public class Main implements GLEventListener {
         byte[] p = null;
         
         try {
-            BufferedImage image = ImageIO.read(new File("res/text.png"));
+            BufferedImage image = ImageIO.read(this.getClass().getResource("/res/text.png"));
             
             Raster d = image.getData();
             int[] aaa = null;

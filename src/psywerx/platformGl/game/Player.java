@@ -19,7 +19,7 @@ public class Player implements Drawable {
         shadow.color = new float[] { 0.0f, 0.0f, 0.0f };
         main.color = new float[] { 0.0f, 0.0f, 1.0f };
         main.c = 'H';
-        
+        main.isText = 1.0f;
         main.z = -0.0021f;
         shadow.z = -0.0011f;
 
@@ -32,7 +32,7 @@ public class Player implements Drawable {
     }
 
     public void update(double theta) {
-        
+        main.isText = 1.0f;
         main.position.y = 0.5f;
         speed.x += theta*4;
         if(direction.x == 0)

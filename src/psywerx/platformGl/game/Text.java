@@ -40,7 +40,6 @@ public class Text implements Drawable {
     @Override
     public void draw(GL2ES2 gl) {
         for (Square s : chars) {
-
             s.draw(gl);
         }
     }

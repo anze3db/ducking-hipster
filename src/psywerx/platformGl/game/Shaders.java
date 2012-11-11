@@ -69,7 +69,7 @@ public class Shaders {
          "void main (void) \n" +
          "{ \n" +
          "  if(u_isText < 0.5){\n" +
-         "    gl_FragColor = texture2D(s_texture, v_texCoord.st, 0.0).w * varying_Color; \n" +
+         "    gl_FragColor = (texture2D(s_texture, v_texCoord.st).w) * varying_Color; \n" +
          "  } else { \n" +
          //"    gl_FragColor = texture2D(s_texture, v_texCoord.st, 0.0) * varying_Color; \n" +
 //         "  vec4 basecolor = texture2D(s_texture, v_texCoord); \n"+

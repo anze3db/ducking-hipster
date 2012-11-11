@@ -22,7 +22,7 @@ public class Game {
         player = new Player();
         bg = new Background();
         title = new Text("Ducking Hipster", new Vector(0.9f, 1.2f));
-        scoreText = new Text("            ", new Vector(0.9f, -1.2f));
+        scoreText = new Text("      ", new Vector(0.9f, -1.2f));
     }
 
     protected void tick(double theta) {
@@ -75,13 +75,17 @@ public class Game {
         
         gl.glUniformMatrix4fv(Main.projectionMatrix_location, 1, false, projection, 0);
 
-        // Draw actual stuff:
-        bg.draw(gl);
-        player.draw(gl);
+        gl.glEnable ( GL.GL_BLEND );
+        gl.glBlendFunc ( GL.GL_SRC_ALPHA, GL.GL_ONE );
+
         
+        // Draw actual stuff:
+        
+        player.draw(gl);
         for (Obstacle g : objects) {
             g.draw(gl);
         }
+        bg.draw(gl);
         title.draw(gl);
         scoreText.draw(gl);
     }
