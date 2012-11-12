@@ -28,6 +28,7 @@ public class Player implements Drawable {
 
         main.size = 0.05f;
         shadow.size = 0.05f;
+        shadow.alpha = 0.6f;
 
     }
 

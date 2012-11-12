@@ -12,7 +12,7 @@ public class Game {
     protected Background bg;
     protected boolean dead = false;
 
-    private double score = 0;
+    protected int score = 0;
 
     private double lastCreated = 0;
     private Text title;
@@ -26,9 +26,7 @@ public class Game {
     }
 
     protected void tick(double theta) {
-        if(!dead)
-            score += theta;
-        scoreText.updateText((String.format("%06.1f", score)));
+        scoreText.updateText((String.format("%06d", score)));
         lastCreated += theta;
         if (lastCreated > 1 && !Main.game.dead) {
             lastCreated = 0;
