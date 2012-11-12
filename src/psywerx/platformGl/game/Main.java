@@ -10,10 +10,8 @@ import static javax.media.opengl.GL.GL_UNSIGNED_BYTE;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
-import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.media.opengl.GL2ES2;
@@ -21,7 +19,6 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLProfile;
-
 
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
@@ -128,16 +125,7 @@ public class Main implements GLEventListener {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
-        
-        
-        // 2x2 Image, 3 bytes per pixel (R, G, B)
-        byte[] pixels = { (byte)0xff, 0, 0, (byte)0xff, // Red
-                (byte)0xff, 0, 0, 0, // Red
-                (byte)0xff, 0, 0, 0, // Red
-                (byte)0xff,(byte) 0xff, 0, (byte)0xff// Yellow
-        };
-        
+               
         ByteBuffer pixelBuffer = ByteBuffer.wrap(p);
 
         // Use tightly packed data

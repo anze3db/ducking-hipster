@@ -17,6 +17,7 @@ public class Square implements Drawable {
     protected char c = ' ';
     protected int sp = Main.shaderProgram;
     protected float isText = 1.0f;
+    protected float alpha = 1.0f;
 
     public void update(double theta) {
 
@@ -44,10 +45,10 @@ public class Square implements Drawable {
         gl.glVertexAttribPointer(0, 3, GL2ES2.GL_FLOAT, false, 0, fbVertices);
         gl.glEnableVertexAttribArray(0);
 
-        float[] colors = { color[0], color[1], color[2], 1.0f, // Top color
-                color[0], color[1], color[2], 1.0f, // Bottom Left color
-                color[0], color[1], color[2], 1.0f, // Bottom Right
-                color[0], color[1], color[2], 1.0f, // Transparency
+        float[] colors = { color[0], color[1], color[2], alpha, // Top color
+                color[0], color[1], color[2], alpha, // Bottom Left color
+                color[0], color[1], color[2], alpha, // Bottom Right
+                color[0], color[1], color[2], alpha, // Transparency
         };
 
         FloatBuffer fbColors = Buffers.newDirectFloatBuffer(colors);
@@ -66,8 +67,8 @@ public class Square implements Drawable {
                 (uVal + 1) * charWidth, vVal * charWidth, // top left (V2)
                 (uVal) * charWidth, vVal * charWidth, // bottom left (V1)
                 (uVal + 1) * charWidth, (vVal + 1) * charWidth, // top right
-                                                                // (V4)
                 uVal * charWidth, (vVal + 1) * charWidth, // bottom right (V3)
+                                                                // (V4)
         };
 
         FloatBuffer t = Buffers.newDirectFloatBuffer(tex);

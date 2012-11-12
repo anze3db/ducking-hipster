@@ -76,18 +76,18 @@ public class Game {
         gl.glUniformMatrix4fv(Main.projectionMatrix_location, 1, false, projection, 0);
 
         gl.glEnable ( GL.GL_BLEND );
-        gl.glBlendFunc ( GL.GL_SRC_ALPHA, GL.GL_ONE );
+        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
         
         // Draw actual stuff:
-        
-        player.draw(gl);
+        bg.bgSquare.z = 0.1f;
+         bg.draw(gl);
+         title.draw(gl);
+         scoreText.draw(gl);
         for (Obstacle g : objects) {
             g.draw(gl);
         }
-        bg.draw(gl);
-        title.draw(gl);
-        scoreText.draw(gl);
+        player.draw(gl);
     }
 
     public void reset() {
