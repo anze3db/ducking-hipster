@@ -18,6 +18,7 @@ public class Square implements Drawable {
     protected int sp = Main.shaderProgram;
     protected float isText = 1.0f;
     protected float alpha = 1.0f;
+    private FloatBuffer fb;
 
     public void update(double theta) {
 
@@ -40,9 +41,9 @@ public class Square implements Drawable {
         }
 
         // This is done so that the data doesn't get garbage collected
-        FloatBuffer fbVertices = Buffers.newDirectFloatBuffer(vertices);
+        fb = Buffers.newDirectFloatBuffer(vertices);
 
-        gl.glVertexAttribPointer(0, 3, GL2ES2.GL_FLOAT, false, 0, fbVertices);
+        gl.glVertexAttribPointer(0, 3, GL2ES2.GL_FLOAT, false, 0, fb);
         gl.glEnableVertexAttribArray(0);
 
         float[] colors = { color[0], color[1], color[2], alpha, // Top color
@@ -51,9 +52,9 @@ public class Square implements Drawable {
                 color[0], color[1], color[2], alpha, // Transparency
         };
 
-        FloatBuffer fbColors = Buffers.newDirectFloatBuffer(colors);
+        fb = Buffers.newDirectFloatBuffer(colors);
 
-        gl.glVertexAttribPointer(1, 4, GL2ES2.GL_FLOAT, false, 0, fbColors);
+        gl.glVertexAttribPointer(1, 4, GL2ES2.GL_FLOAT, false, 0, fb);
         gl.glEnableVertexAttribArray(1);
 
         int charIndex = (int) c - 32;
@@ -71,9 +72,9 @@ public class Square implements Drawable {
                                                                 // (V4)
         };
 
-        FloatBuffer t = Buffers.newDirectFloatBuffer(tex);
+        fb = Buffers.newDirectFloatBuffer(tex);
 
-        gl.glVertexAttribPointer(2, 2, GL2ES2.GL_FLOAT, false, 0, t);
+        gl.glVertexAttribPointer(2, 2, GL2ES2.GL_FLOAT, false, 0, fb);
         gl.glEnableVertexAttribArray(2);
 
         gl.glActiveTexture(GL.GL_TEXTURE0);
@@ -88,11 +89,11 @@ public class Square implements Drawable {
                                           // memory
         gl.glDisableVertexAttribArray(1); // Allow release of vertex color
                                           // memory
+        gl.glDisableVertexAttribArray(2); 
         // It is only safe to let the garbage collector collect the vertices and
         // colors
         // NIO buffers data after first calling glDisableVertexAttribArray.
-        fbVertices = null;
-        fbColors = null;
+        fb = null;
     }
 
 }
